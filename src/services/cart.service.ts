@@ -1,4 +1,3 @@
-
 import mongoose from "mongoose";
 import Cart from "../models/cart.model";
 import Product from "../models/product.model";
@@ -73,8 +72,7 @@ export async function addCartItem(
       item.variant.toString() === data.variantId,
   );
 
-  const nextQuantity =
-    (existingItem?.quantity ?? 0) + data.quantity;
+  const nextQuantity = (existingItem?.quantity ?? 0) + data.quantity;
 
   if (nextQuantity > variant.stock) {
     throw new Error("INSUFFICIENT_STOCK");
@@ -114,9 +112,7 @@ export async function updateCartItem(
     throw new Error("CART_NOT_FOUND");
   }
 
-  const item = cart.items.find(
-    (entry) => entry._id.toString() === itemId,
-  );
+  const item = cart.items.find((entry) => entry._id?.toString() === itemId);
 
   if (!item) {
     throw new Error("CART_ITEM_NOT_FOUND");
@@ -149,10 +145,7 @@ export async function updateCartItem(
   return cart;
 }
 
-export async function removeCartItem(
-  userId: string,
-  itemId: string,
-) {
+export async function removeCartItem(userId: string, itemId: string) {
   if (!validateId(itemId)) {
     throw new Error("INVALID_ITEM_ID");
   }
@@ -164,16 +157,16 @@ export async function removeCartItem(
   }
 
   const itemExists = cart.items.some(
-    (item) => item._id.toString() === itemId,
-  );
+  (item) => item._id?.toString() === itemId,
+);
 
   if (!itemExists) {
     throw new Error("CART_ITEM_NOT_FOUND");
   }
 
-  cart.items = cart.items.filter(
-    (item) => item._id.toString() !== itemId,
-  );
+ cart.items = cart.items.filter(
+  (item) => item._id?.toString() !== itemId,
+);
 
   await cart.save();
 
