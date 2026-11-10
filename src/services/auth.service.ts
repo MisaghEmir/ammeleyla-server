@@ -105,6 +105,14 @@ export async function adminLogin(phone: string, password: string) {
     phone: normalizedPhone,
   }).select("+password");
 
+  console.log("ADMIN LOGIN CHECK:", {
+    phone: normalizedPhone,
+    userFound: !!user,
+    hasPassword: !!user?.password,
+    role: user?.role,
+    isActive: user?.isActive,
+  });
+
   if (!user || !user.password) {
     throw new Error("شماره موبایل یا رمز عبور اشتباه است");
   }
@@ -119,8 +127,10 @@ export async function adminLogin(phone: string, password: string) {
 
   const passwordIsValid = await bcrypt.compare(
     password,
-    user.password,
+    user.password
   );
+
+  console.log("PASSWORD MATCH:", passwordIsValid);
 
   if (!passwordIsValid) {
     throw new Error("شماره موبایل یا رمز عبور اشتباه است");
