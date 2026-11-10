@@ -42,6 +42,8 @@ const allowedOrigins = [
   "http://localhost:3001",
   "http://127.0.0.1:3000",
   "http://127.0.0.1:3001",
+  "https://ammeleyla-admin.vercel.app",
+
 ]
   .filter((value): value is string => Boolean(value))
   .flatMap((value) => value.split(","))
